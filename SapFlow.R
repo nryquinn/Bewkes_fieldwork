@@ -22,3 +22,4 @@ lines(sapflowF$`doy by hour`, sapflowF$sapflowF5, col = "black")
 
 #Add a legend
 legend("topleft", c("Sensor 1", "Sensor 2", "Sensor 3", "Sensor 4", "Sensor 5"), lty=1, col = c("red", "blue", "green", "orange", "black"), bty="n")
+install.packages(tiff)

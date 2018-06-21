@@ -44,4 +44,27 @@ ThermalData <- ThermalData[order(ThermalData$Temp.name3), ]
 ThermalData$TimeID <- seq(1,157 [1], by = 0.5)
 
 #Delete Unneccessary RGB Images
-RGBFlight <- RGBFlight[-c(158:267)]
+RGBFlight <- RGBFlight[-c(158:267), ]
+
+#Join Tables
+All <- join(RGBFlight, ThermalData, by = c("TimeID"), type = "full")
+All <- arrange(All, TimeID)
+
+#Interpolate Values
+All$`x/Longitude` <- na.approx(All$`x/Longitude`)
+All$`y/Lattitude` <- na.approx(All$`y/Lattitude`)
+All$`z/Altitude` <- na.approx(All$`z/Altitude`)
+All$Yaw <- na.approx(All$Yaw)
+All$Pitch <- na.approx(All$Pitch)
+All$Roll <- na.approx(All$Roll)
+
+#Remove Unwanted Columns
+All$All <- NULL
+All$PhotoID <- NULL
+All$Temp.name <- NULL
+All$Temp.name2 <- NULL
+All$Temp.name3 <- NULL
+All <- All[-c(314:423), ]
+
+#Export CSV
+write.csv(All, file = "/Volumes/data/data_repo/field_data/bewkes/Drone/Thermal Imagery/RawData/Thermal620raw.csv")
